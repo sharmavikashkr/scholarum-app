@@ -1,4 +1,4 @@
-package com.scholarum.oauth.service;
+package com.scholarum.common.service;
 
 import java.util.List;
 

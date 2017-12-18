@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.scholarum.common.entity.CustomUserDetails;
 import com.scholarum.common.entity.ScUser;
 import com.scholarum.common.repository.UserRepository;
+import com.scholarum.common.service.UserRoleService;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
