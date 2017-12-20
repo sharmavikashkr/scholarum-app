@@ -23,6 +23,8 @@
 		<module>oauth</module>
 		<module>school</module>
 		<module>dashboard</module>
+		<module>messaging</module>
+		<module>caching</module>
 	</modules>
 
 	<parent>
@@ -79,6 +81,11 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
