@@ -12,6 +12,7 @@ public class TestController {
 	@PreAuthorize(RoleUtil.SCHOLARUM_ADMIN_AUTH)
 	@RequestMapping("/test")
 	public String startup() {
+		//is allowed action
 		return "TEST";
 	}
 
