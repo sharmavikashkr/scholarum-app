@@ -11,8 +11,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "pc_school")
-public class School {
+@Table(name = "pc_institution")
+public class Institution {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,7 @@ public class School {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
-	
+
 	public Integer getId() {
 		return id;
 	}

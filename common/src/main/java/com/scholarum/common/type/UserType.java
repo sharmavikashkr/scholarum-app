@@ -2,6 +2,6 @@ package com.scholarum.common.type;
 
 public enum UserType {
 
-	ADMIN, SUPERVISOR, FINANCE, OPERATIONS, ADVISOR;
+	ADMIN, SUPERVISOR, FINANCE, TEACHER, STAFF, OPERATIONS, ADVISOR;
 
 }

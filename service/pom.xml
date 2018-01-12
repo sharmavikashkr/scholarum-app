@@ -26,6 +26,16 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>caching</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>messaging</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>oauth</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -42,6 +52,11 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>school</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>institution</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

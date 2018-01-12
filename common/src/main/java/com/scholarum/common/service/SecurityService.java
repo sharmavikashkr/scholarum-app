@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.scholarum.common.entity.ScUser;
 import com.scholarum.common.entity.School;
 import com.scholarum.common.entity.SchoolUser;
-import com.scholarum.common.repository.SchoolRepository;
 import com.scholarum.common.repository.SchoolUserRepository;
 import com.scholarum.common.repository.UserRepository;
 import com.scholarum.common.type.Role;
@@ -25,9 +24,6 @@ public class SecurityService {
 
 	@Autowired
 	private SchoolUserRepository schUserRepo;
-
-	@Autowired
-	private SchoolRepository schRepo;
 
 	@Autowired
 	private UserRoleService userRoleService;
@@ -56,19 +52,23 @@ public class SecurityService {
 	public boolean isSchoolUser() {
 		ScUser user = findLoggedInUser();
 		String[] roles = userRoleService.getUserRoles(user);
-		return (Arrays.asList(roles).contains(Role.ROLE_SCHOOL.name())
+		return (Arrays.asList(roles).contains(Role.ROLE_SCHOOL_ADMIN.name())
 				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_FINANCE.name())
-				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_OPS.name()));
+				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_OPS.name())
+				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_TEACHER.name())
+				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_STAFF.name()));
 	}
 
 	public School getSchoolForLoggedInUser() {
 		ScUser user = findLoggedInUser();
 		String[] roles = userRoleService.getUserRoles(user);
-		if (Arrays.asList(roles).contains(Role.ROLE_SCHOOL.name())
+		if (Arrays.asList(roles).contains(Role.ROLE_SCHOOL_ADMIN.name())
 				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_FINANCE.name())
-				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_OPS.name())) {
-			SchoolUser schUser = schUserRepo.findByUserId(user.getId());
-			return schRepo.findOne(schUser.getSchoolId());
+				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_OPS.name())
+				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_TEACHER.name())
+				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_STAFF.name())) {
+			SchoolUser schUser = schUserRepo.findByUser(user);
+			return schUser.getSchool();
 		}
 		return null;
 	}
@@ -79,11 +79,13 @@ public class SecurityService {
 			return null;
 		}
 		String[] roles = userRoleService.getUserRoles(user);
-		if (Arrays.asList(roles).contains(Role.ROLE_SCHOOL.name())
+		if (Arrays.asList(roles).contains(Role.ROLE_SCHOOL_ADMIN.name())
 				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_FINANCE.name())
-				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_OPS.name())) {
-			SchoolUser schUser = schUserRepo.findByUserId(user.getId());
-			return schRepo.findOne(schUser.getSchoolId());
+				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_OPS.name())
+				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_TEACHER.name())
+				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_STAFF.name())) {
+			SchoolUser schUser = schUserRepo.findByUser(user);
+			return schUser.getSchool();
 		}
 		return null;
 	}
@@ -94,7 +96,7 @@ public class SecurityService {
 			return false;
 		}
 		String[] roles = userRoleService.getUserRoles(user);
-		return (Arrays.asList(roles).contains(Role.ROLE_SCHOLARUM.name())
+		return (Arrays.asList(roles).contains(Role.ROLE_SCHOLARUM_ADMIN.name())
 				|| Arrays.asList(roles).contains(Role.ROLE_SCHOLARUM_SUPERVISOR.name())
 				|| Arrays.asList(roles).contains(Role.ROLE_SCHOLARUM_FINANCE.name())
 				|| Arrays.asList(roles).contains(Role.ROLE_SCHOLARUM_OPS.name())

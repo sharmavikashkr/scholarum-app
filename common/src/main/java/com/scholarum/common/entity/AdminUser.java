@@ -9,8 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "pc_school_user")
-public class SchoolUser implements Serializable {
+@Table(name = "pc_admin_user")
+public class AdminUser implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -18,15 +18,15 @@ public class SchoolUser implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	private School school;
+	private Admin admin;
 	private ScUser user;
 
-	public School getSchool() {
-		return school;
+	public Admin getAdmin() {
+		return admin;
 	}
 
-	public void setSchool(School school) {
-		this.school = school;
+	public void setAdmin(Admin admin) {
+		this.admin = admin;
 	}
 
 	public ScUser getUser() {

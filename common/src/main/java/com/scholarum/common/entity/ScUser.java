@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.scholarum.common.type.Hierarchy;
 import com.scholarum.common.type.UserType;
 
 @Entity
@@ -34,6 +35,9 @@ public class ScUser {
 
 	@Enumerated(EnumType.STRING)
 	private UserType userType;
+
+	@Enumerated(EnumType.STRING)
+	private Hierarchy hierarchy;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
@@ -125,6 +129,14 @@ public class ScUser {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public Hierarchy getHierarchy() {
+		return hierarchy;
+	}
+
+	public void setHierarchy(Hierarchy hierarchy) {
+		this.hierarchy = hierarchy;
 	}
 
 }

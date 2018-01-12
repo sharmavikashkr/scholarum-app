@@ -5,15 +5,15 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.scholarum.common.entity.InstitutionUser;
 import com.scholarum.common.entity.ScUser;
 import com.scholarum.common.entity.School;
-import com.scholarum.common.entity.SchoolUser;
 
 @Repository
-public interface SchoolUserRepository extends JpaRepository<SchoolUser, Integer> {
+public interface InstitutionUserRepository extends JpaRepository<InstitutionUser, Integer> {
 
-	public SchoolUser findByUser(ScUser user);
+	public InstitutionUser findByUser(ScUser user);
 
-	public List<SchoolUser> findBySchool(School school);
+	public List<InstitutionUser> findBySchool(School school);
 
 }
