@@ -4,10 +4,10 @@ CREATE TABLE if not exists sc_user (
 	name varchar(50) DEFAULT NULL,
     email varchar(50) DEFAULT NULL,
     mobile varchar(15) NOT NULL,
-    created_by varchar(50) NOT NULL,
+    password varchar(100) NOT NULL,
     user_type varchar(20) NOT NULL,
     hierarchy varchar(20) NOT NULL,
-    password varchar(100) NOT NULL,
+    created_by varchar(50) NOT NULL,
     active boolean NOT NULL,
     address_id int REFERENCES sc_address
 );

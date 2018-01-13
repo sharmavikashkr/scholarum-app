@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -24,11 +25,15 @@ public class School {
 	private String mobile;
 	private String accessKey;
 	private String secretKey;
+	private String createdBy;
 	private boolean active;
+
+	@ManyToOne
+	private Institution institution;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -95,5 +100,21 @@ public class School {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public Institution getInstitution() {
+		return institution;
+	}
+
+	public void setInstitution(Institution institution) {
+		this.institution = institution;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
 	}
 }

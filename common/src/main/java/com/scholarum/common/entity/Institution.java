@@ -24,6 +24,7 @@ public class Institution {
 	private String mobile;
 	private String accessKey;
 	private String secretKey;
+	private String createdBy;
 	private boolean active;
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -95,5 +96,13 @@ public class Institution {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
 	}
 }

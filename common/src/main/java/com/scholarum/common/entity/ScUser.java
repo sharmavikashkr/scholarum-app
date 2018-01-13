@@ -29,8 +29,8 @@ public class ScUser {
 	private Date created;
 	private String name;
 	private String email;
-	private String password;
 	private String mobile;
+	private String password;
 	private String createdBy;
 
 	@Enumerated(EnumType.STRING)
