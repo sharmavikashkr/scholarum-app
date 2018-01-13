@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "pc_school")
+@Table(name = "sc_school")
 public class School {
 
 	@Id

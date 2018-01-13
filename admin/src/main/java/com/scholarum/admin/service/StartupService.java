@@ -3,6 +3,7 @@ package com.scholarum.admin.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,9 +16,12 @@ import com.scholarum.common.entity.UserRole;
 import com.scholarum.common.repository.AdminRepository;
 import com.scholarum.common.repository.AdminUserRepository;
 import com.scholarum.common.repository.UserRepository;
+import com.scholarum.common.type.Hierarchy;
 import com.scholarum.common.type.Role;
 import com.scholarum.common.type.UserType;
 import com.scholarum.common.util.CommonUtil;
+import com.scholarum.common.util.HmacSignerUtil;
+import com.scholarum.common.util.RandomIdGenerator;
 
 @Component
 public class StartupService {
@@ -31,19 +35,26 @@ public class StartupService {
 	@Autowired
 	private AdminUserRepository adminUserRepo;
 
+	@Autowired
+	private HmacSignerUtil hmacSigner;
+
 	public void createSuperAdmin() {
 		Date timeNow = new Date();
-		if (CommonUtil.isNotNull(userRepo.findByEmail("admin@scholarum.in"))) {
+		if (CommonUtil.isNotNull(adminRepo.findByEmail("care@scholarum.in"))) {
 			return;
 		}
 		Admin admin = new Admin();
-		admin.setAccessKey("");
 		admin.setActive(true);
 		admin.setCreated(new Date());
 		admin.setEmail("care@scholarum.in");
 		admin.setMobile("9090909090");
-		admin.setName("Scholarum");
-		admin.setSecretKey("");
+		admin.setName("Scholarum Inc");
+		String secretKey = hmacSigner.signWithSecretKey(UUID.randomUUID().toString(),
+				String.valueOf(timeNow.getTime()));
+		String accessKey = secretKey + secretKey.toLowerCase() + secretKey.toUpperCase();
+		accessKey = RandomIdGenerator.generateAccessKey(accessKey.toCharArray());
+		admin.setAccessKey(accessKey);
+		admin.setSecretKey(secretKey);
 		adminRepo.save(admin);
 		ScUser user = new ScUser();
 		user.setCreated(timeNow);
@@ -52,6 +63,7 @@ public class StartupService {
 		user.setPassword(new BCryptPasswordEncoder().encode("password@123"));
 		user.setMobile("9999999999");
 		user.setUserType(UserType.ADMIN);
+		user.setHierarchy(Hierarchy.SCHOLARUM);
 		user.setCreatedBy("SYSTEM");
 		List<UserRole> userRoles = new ArrayList<UserRole>();
 		UserRole userRole = new UserRole();

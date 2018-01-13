@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "pc_admin")
+@Table(name = "sc_admin")
 public class Admin {
 
 	@Id

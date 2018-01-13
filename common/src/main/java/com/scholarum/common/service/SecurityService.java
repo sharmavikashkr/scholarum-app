@@ -1,20 +1,24 @@
 package com.scholarum.common.service;
 
-import java.util.Arrays;
-
+import org.eclipse.jetty.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Service;
 
+import com.scholarum.common.entity.Admin;
+import com.scholarum.common.entity.AdminUser;
+import com.scholarum.common.entity.Institution;
+import com.scholarum.common.entity.InstitutionUser;
 import com.scholarum.common.entity.ScUser;
 import com.scholarum.common.entity.School;
 import com.scholarum.common.entity.SchoolUser;
+import com.scholarum.common.exception.ScException;
+import com.scholarum.common.repository.AdminUserRepository;
+import com.scholarum.common.repository.InstitutionUserRepository;
 import com.scholarum.common.repository.SchoolUserRepository;
 import com.scholarum.common.repository.UserRepository;
-import com.scholarum.common.type.Role;
+import com.scholarum.common.type.Hierarchy;
 
 @Service
 public class SecurityService {
@@ -23,83 +27,46 @@ public class SecurityService {
 	private UserRepository userRepo;
 
 	@Autowired
+	private AdminUserRepository adminUserRepo;
+
+	@Autowired
+	private InstitutionUserRepository instUserRepo;
+
+	@Autowired
 	private SchoolUserRepository schUserRepo;
-
-	@Autowired
-	private UserRoleService userRoleService;
-
-	@Autowired
-	private TokenStore tokenStore;
 
 	public ScUser findLoggedInUser() {
 		Object userDetails = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (userDetails instanceof UserDetails) {
 			return userRepo.findByEmail(((UserDetails) userDetails).getUsername());
 		}
+		throw new ScException(HttpStatus.BAD_REQUEST_400, "Invalid User");
+	}
+
+	public Admin getAdminForLoggedInUser() {
+		ScUser user = findLoggedInUser();
+		if (Hierarchy.SCHOLARUM.equals(user.getHierarchy())) {
+			AdminUser adminUser = adminUserRepo.findByUser(user);
+			return adminUser.getAdmin();
+		}
 		return null;
 	}
 
-	public ScUser findLoggedInUser(String token) {
-		try {
-			OAuth2Authentication oauth = tokenStore.readAuthentication(tokenStore.readAccessToken(token));
-			UserDetails userDetails = (UserDetails) oauth.getUserAuthentication().getPrincipal();
-			return userRepo.findByEmail(userDetails.getUsername());
-		} catch (Exception ex) {
-			return null;
-		}
-	}
-
-	public boolean isSchoolUser() {
+	public Institution getInstitutionForLoggedInUser() {
 		ScUser user = findLoggedInUser();
-		String[] roles = userRoleService.getUserRoles(user);
-		return (Arrays.asList(roles).contains(Role.ROLE_SCHOOL_ADMIN.name())
-				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_FINANCE.name())
-				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_OPS.name())
-				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_TEACHER.name())
-				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_STAFF.name()));
+		if (Hierarchy.INSTITUTION.equals(user.getHierarchy())) {
+			InstitutionUser instUser = instUserRepo.findByUser(user);
+			return instUser.getInstitution();
+		}
+		return null;
 	}
 
 	public School getSchoolForLoggedInUser() {
 		ScUser user = findLoggedInUser();
-		String[] roles = userRoleService.getUserRoles(user);
-		if (Arrays.asList(roles).contains(Role.ROLE_SCHOOL_ADMIN.name())
-				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_FINANCE.name())
-				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_OPS.name())
-				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_TEACHER.name())
-				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_STAFF.name())) {
+		if (Hierarchy.SCHOOL.equals(user.getHierarchy())) {
 			SchoolUser schUser = schUserRepo.findByUser(user);
 			return schUser.getSchool();
 		}
 		return null;
-	}
-
-	public School getSchoolForLoggedInUser(String token) {
-		ScUser user = findLoggedInUser(token);
-		if (user == null) {
-			return null;
-		}
-		String[] roles = userRoleService.getUserRoles(user);
-		if (Arrays.asList(roles).contains(Role.ROLE_SCHOOL_ADMIN.name())
-				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_FINANCE.name())
-				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_OPS.name())
-				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_TEACHER.name())
-				|| Arrays.asList(roles).contains(Role.ROLE_SCHOOL_STAFF.name())) {
-			SchoolUser schUser = schUserRepo.findByUser(user);
-			return schUser.getSchool();
-		}
-		return null;
-	}
-
-	public boolean isScholarumUser(String token) {
-		ScUser user = findLoggedInUser(token);
-		if (user == null) {
-			return false;
-		}
-		String[] roles = userRoleService.getUserRoles(user);
-		return (Arrays.asList(roles).contains(Role.ROLE_SCHOLARUM_ADMIN.name())
-				|| Arrays.asList(roles).contains(Role.ROLE_SCHOLARUM_SUPERVISOR.name())
-				|| Arrays.asList(roles).contains(Role.ROLE_SCHOLARUM_FINANCE.name())
-				|| Arrays.asList(roles).contains(Role.ROLE_SCHOLARUM_OPS.name())
-				|| Arrays.asList(roles).contains(Role.ROLE_SCHOLARUM_ADVISOR.name()));
 	}
 }
