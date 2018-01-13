@@ -21,7 +21,7 @@ public class InstitutionController {
 
 	@PreAuthorize(RoleUtil.INSTITUTION_AUTH)
 	@RequestMapping("/get")
-	public Institution startup(HttpServletResponse httpResponse) {
+	public Institution getInstitution(HttpServletResponse httpResponse) {
 		try {
 			return secSer.getInstitutionForLoggedInUser();
 		} catch (Exception ex) {

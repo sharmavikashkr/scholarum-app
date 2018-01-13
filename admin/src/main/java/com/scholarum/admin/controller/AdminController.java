@@ -21,7 +21,7 @@ public class AdminController {
 
 	@PreAuthorize(RoleUtil.SCHOLARUM_AUTH)
 	@RequestMapping("/get")
-	public Admin startup(HttpServletResponse httpResponse) {
+	public Admin getAdmin(HttpServletResponse httpResponse) {
 		try {
 			return secSer.getAdminForLoggedInUser();
 		} catch (Exception ex) {
@@ -30,4 +30,9 @@ public class AdminController {
 		}
 	}
 
+	@PreAuthorize(RoleUtil.SCHOLARUM_AUTH + " and hasPermission('ACTIVITY','ADD')")
+	@RequestMapping("/test")
+	public String test(HttpServletResponse httpResponse) {
+		return "User has permission to add activity";
+	}
 }

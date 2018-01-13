@@ -21,7 +21,7 @@ public class SchoolController {
 
 	@PreAuthorize(RoleUtil.SCHOOL_AUTH)
 	@RequestMapping("/get")
-	public School startup(HttpServletResponse httpResponse) {
+	public School getSchool(HttpServletResponse httpResponse) {
 		try {
 			return secSer.getSchoolForLoggedInUser();
 		} catch (Exception ex) {
