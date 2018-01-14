@@ -4,6 +4,8 @@ public class RoleUtil {
 
 	public static final String ALL_AUTH = "hasAuthority('ROLE_SCHOLARUM_ADMIN') or hasAuthority('ROLE_SCHOLARUM_SUPERVISOR')"
 			+ " or hasAuthority('ROLE_SCHOLARUM_FINANCE') or hasAuthority('ROLE_SCHOLARUM_OPS') or hasAuthority('ROLE_SCHOLARUM_ADVISOR')"
+			+ " or hasAuthority('ROLE_INSTITUTION_ADMIN') or hasAuthority('ROLE_INSTITUTION_SUPERVISOR')"
+			+ " or hasAuthority('ROLE_INSTITUTION_FINANCE') or hasAuthority('ROLE_INSTITUTION_OPS')"
 			+ " or hasAuthority('ROLE_SCHOOL_ADMIN') or hasAuthority('ROLE_SCHOOL_FINANCE') or hasAuthority('ROLE_SCHOOL_OPS')"
 			+ " or hasAuthority('ROLE_SCHOOL_TEACHER') or hasAuthority('ROLE_SCHOOL_STAFF')";
 
