@@ -1,16 +1,14 @@
 package com.scholarum.common.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.scholarum.common.entity.UserRole;
+import com.scholarum.common.entity.Role;
 import com.scholarum.common.type.RoleType;
 
 @Repository
-public interface UserRoleRepository extends JpaRepository<UserRole, Integer> {
+public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-	public List<UserRole> findByRole(RoleType role);
+	public Role findByName(RoleType name);
 
 }

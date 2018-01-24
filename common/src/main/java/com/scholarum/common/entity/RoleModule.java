@@ -7,33 +7,22 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
-@Table(name = "sc_user_role")
-public class UserRole {
+@Table(name = "sc_role_module")
+public class RoleModule {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@JsonIgnore
-	@ManyToOne
-	private ScUser user;
-
 	@ManyToOne
 	private Role role;
 
+	@ManyToOne
+	private Module module;
+
 	public Integer getId() {
 		return id;
-	}
-
-	public ScUser getUser() {
-		return user;
-	}
-
-	public void setScUser(ScUser user) {
-		this.user = user;
 	}
 
 	public Role getRole() {
@@ -42,6 +31,14 @@ public class UserRole {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public Module getModule() {
+		return module;
+	}
+
+	public void setModule(Module module) {
+		this.module = module;
 	}
 
 }

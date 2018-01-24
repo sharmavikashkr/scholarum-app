@@ -18,7 +18,7 @@ import com.scholarum.common.repository.AdminUserRepository;
 import com.scholarum.common.repository.InstitutionUserRepository;
 import com.scholarum.common.repository.SchoolUserRepository;
 import com.scholarum.common.repository.UserRepository;
-import com.scholarum.common.type.Hierarchy;
+import com.scholarum.common.type.HierarchyType;
 
 @Service
 public class SecurityService {
@@ -45,7 +45,7 @@ public class SecurityService {
 
 	public Admin getAdminForLoggedInUser() {
 		ScUser user = findLoggedInUser();
-		if (Hierarchy.SCHOLARUM.equals(user.getHierarchy())) {
+		if (HierarchyType.SCHOLARUM.equals(user.getHierarchy().getName())) {
 			AdminUser adminUser = adminUserRepo.findByUser(user);
 			return adminUser.getAdmin();
 		}
@@ -54,7 +54,7 @@ public class SecurityService {
 
 	public Institution getInstitutionForLoggedInUser() {
 		ScUser user = findLoggedInUser();
-		if (Hierarchy.INSTITUTION.equals(user.getHierarchy())) {
+		if (HierarchyType.INSTITUTION.equals(user.getHierarchy().getName())) {
 			InstitutionUser instUser = instUserRepo.findByUser(user);
 			return instUser.getInstitution();
 		}
@@ -63,7 +63,7 @@ public class SecurityService {
 
 	public School getSchoolForLoggedInUser() {
 		ScUser user = findLoggedInUser();
-		if (Hierarchy.SCHOOL.equals(user.getHierarchy())) {
+		if (HierarchyType.SCHOOL.equals(user.getHierarchy().getName())) {
 			SchoolUser schUser = schUserRepo.findByUser(user);
 			return schUser.getSchool();
 		}

@@ -37,10 +37,16 @@ public class AdminController {
 		}
 	}
 
-	@PreAuthorize(RoleUtil.SCHOLARUM_AUTH + " and hasPermission('ACTIVITY','ADD')")
-	@RequestMapping("/test")
-	public String test(HttpServletResponse httpResponse) {
+	@PreAuthorize("hasPermission('MODULE','ACTIVITY','ADD')")
+	@RequestMapping("/test/add")
+	public String addTest(HttpServletResponse httpResponse) {
 		return "User has permission to add activity";
+	}
+	
+	@PreAuthorize("hasPermission('MODULE','ACTIVITY','DELETE')")
+	@RequestMapping("/test/delete")
+	public String deleteTest(HttpServletResponse httpResponse) {
+		return "User has permission to delete activity";
 	}
 
 	@PreAuthorize(RoleUtil.SCHOLARUM_ADMIN_AUTH)

@@ -5,17 +5,16 @@ CREATE TABLE if not exists sc_user (
     email varchar(50) DEFAULT NULL,
     mobile varchar(15) NOT NULL,
     password varchar(100) NOT NULL,
-    user_type varchar(20) NOT NULL,
-    hierarchy varchar(20) NOT NULL,
     created_by varchar(50) NOT NULL,
     active boolean NOT NULL,
+    hierarchy_id int REFERENCES sc_hierarchy,
     address_id int REFERENCES sc_address
 );
 
 CREATE TABLE if not exists sc_user_role(
 	id SERIAL PRIMARY KEY NOT NULL,
-	role varchar(50) NOT NULL,
-	pc_user int REFERENCES sc_user
+	user_id int REFERENCES sc_user,
+	role_id int REFERENCES sc_role
 );
 
 CREATE TABLE if not exists sc_admin_user(

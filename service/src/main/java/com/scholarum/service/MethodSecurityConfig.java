@@ -1,5 +1,6 @@
 package com.scholarum.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -12,10 +13,13 @@ import com.scholarum.common.service.CustomPermissionEvaluator;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 
+	@Autowired
+	private CustomPermissionEvaluator permEval;
+
 	@Override
 	protected MethodSecurityExpressionHandler createExpressionHandler() {
 		OAuth2MethodSecurityExpressionHandler expressionHandler = new OAuth2MethodSecurityExpressionHandler();
-		expressionHandler.setPermissionEvaluator(new CustomPermissionEvaluator());
+		expressionHandler.setPermissionEvaluator(permEval);
 		return expressionHandler;
 	}
 

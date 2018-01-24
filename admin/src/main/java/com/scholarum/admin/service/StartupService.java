@@ -11,20 +11,29 @@ import org.springframework.stereotype.Component;
 
 import com.scholarum.common.entity.Admin;
 import com.scholarum.common.entity.AdminUser;
+import com.scholarum.common.entity.Hierarchy;
+import com.scholarum.common.entity.Role;
 import com.scholarum.common.entity.ScUser;
 import com.scholarum.common.entity.UserRole;
 import com.scholarum.common.repository.AdminRepository;
 import com.scholarum.common.repository.AdminUserRepository;
+import com.scholarum.common.repository.HierarchyRepository;
+import com.scholarum.common.repository.RoleRepository;
 import com.scholarum.common.repository.UserRepository;
-import com.scholarum.common.type.Hierarchy;
-import com.scholarum.common.type.Role;
-import com.scholarum.common.type.UserType;
+import com.scholarum.common.type.HierarchyType;
+import com.scholarum.common.type.RoleType;
 import com.scholarum.common.util.CommonUtil;
 import com.scholarum.common.util.HmacSignerUtil;
 import com.scholarum.common.util.RandomIdGenerator;
 
 @Component
 public class StartupService {
+
+	@Autowired
+	private HierarchyRepository hieRepo;
+
+	@Autowired
+	private RoleRepository roleRepo;
 
 	@Autowired
 	private UserRepository userRepo;
@@ -37,6 +46,35 @@ public class StartupService {
 
 	@Autowired
 	private HmacSignerUtil hmacSigner;
+
+	public void setupHierarchy() {
+		if (!hieRepo.findAll().isEmpty()) {
+			return;
+		}
+		for (HierarchyType name : HierarchyType.values()) {
+			Hierarchy hierarchy = new Hierarchy();
+			hierarchy.setName(name);
+			hieRepo.save(hierarchy);
+		}
+	}
+
+	public void setupRoles() {
+		if (!roleRepo.findAll().isEmpty()) {
+			return;
+		}
+		for (RoleType name : RoleType.values()) {
+			Role role = new Role();
+			role.setName(name);
+			if (name.name().contains(HierarchyType.SCHOLARUM.name())) {
+				role.setHierarchy(hieRepo.findByName(HierarchyType.SCHOLARUM));
+			} else if (name.name().contains(HierarchyType.INSTITUTION.name())) {
+				role.setHierarchy(hieRepo.findByName(HierarchyType.INSTITUTION));
+			} else if (name.name().contains(HierarchyType.SCHOOL.name())) {
+				role.setHierarchy(hieRepo.findByName(HierarchyType.SCHOOL));
+			}
+			roleRepo.save(role);
+		}
+	}
 
 	public void createSuperAdmin() {
 		Date timeNow = new Date();
@@ -62,12 +100,11 @@ public class StartupService {
 		user.setEmail("admin@scholarum.in");
 		user.setPassword(new BCryptPasswordEncoder().encode("password@123"));
 		user.setMobile("9999999999");
-		user.setUserType(UserType.ADMIN);
-		user.setHierarchy(Hierarchy.SCHOLARUM);
+		user.setHierarchy(hieRepo.findByName(HierarchyType.SCHOLARUM));
 		user.setCreatedBy("SYSTEM");
 		List<UserRole> userRoles = new ArrayList<UserRole>();
 		UserRole userRole = new UserRole();
-		userRole.setRole(Role.ROLE_SCHOLARUM_ADMIN);
+		userRole.setRole(roleRepo.findByName(RoleType.ROLE_SCHOLARUM_ADMIN));
 		userRole.setScUser(user);
 		userRoles.add(userRole);
 		user.setUserRoles(userRoles);

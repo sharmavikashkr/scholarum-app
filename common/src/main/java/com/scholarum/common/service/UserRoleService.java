@@ -15,7 +15,7 @@ public class UserRoleService {
 		String[] roles = new String[userRoles.size()];
 		int i = 0;
 		for (UserRole userRole : userRoles) {
-			roles[i++] = userRole.getRole().name();
+			roles[i++] = userRole.getRole().getName().name();
 		}
 		return roles;
 	}

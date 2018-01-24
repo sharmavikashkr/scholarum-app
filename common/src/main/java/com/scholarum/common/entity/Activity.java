@@ -10,38 +10,37 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "sc_user_role")
-public class UserRole {
+@Table(name = "sc_activity")
+public class Activity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	private String name;
+
 	@JsonIgnore
 	@ManyToOne
-	private ScUser user;
-
-	@ManyToOne
-	private Role role;
+	private Module module;
 
 	public Integer getId() {
 		return id;
 	}
 
-	public ScUser getUser() {
-		return user;
+	public String getName() {
+		return name;
 	}
 
-	public void setScUser(ScUser user) {
-		this.user = user;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public Role getRole() {
-		return role;
+	public Module getModule() {
+		return module;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setModule(Module module) {
+		this.module = module;
 	}
 
 }

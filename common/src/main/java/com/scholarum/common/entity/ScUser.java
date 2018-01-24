@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,9 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.scholarum.common.type.Hierarchy;
-import com.scholarum.common.type.UserType;
 
 @Entity
 @Table(name = "sc_user")
@@ -33,10 +28,7 @@ public class ScUser {
 	private String password;
 	private String createdBy;
 
-	@Enumerated(EnumType.STRING)
-	private UserType userType;
-
-	@Enumerated(EnumType.STRING)
+	@OneToOne
 	private Hierarchy hierarchy;
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -44,7 +36,7 @@ public class ScUser {
 
 	private boolean active;
 
-	@OneToMany(mappedBy = "scUser", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<UserRole> userRoles;
 
 	public String getPassword() {
@@ -105,14 +97,6 @@ public class ScUser {
 
 	public void setActive(boolean active) {
 		this.active = active;
-	}
-
-	public UserType getUserType() {
-		return userType;
-	}
-
-	public void setUserType(UserType userType) {
-		this.userType = userType;
 	}
 
 	public String getCreatedBy() {

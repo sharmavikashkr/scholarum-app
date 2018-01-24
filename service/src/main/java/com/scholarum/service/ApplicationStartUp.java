@@ -15,6 +15,8 @@ public class ApplicationStartUp implements ApplicationListener<ContextRefreshedE
 
 	@Override
 	public void onApplicationEvent(final ContextRefreshedEvent event) {
+		startupService.setupHierarchy();
+		startupService.setupRoles();
 		startupService.createSuperAdmin();
 	}
 
