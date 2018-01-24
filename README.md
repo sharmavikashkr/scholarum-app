@@ -9,6 +9,6 @@ Please follow these instructions to start developing
 5. Checkout source code and import in Eclipse (import existing maven project).
 6. In Eclipse : Project>Clean.
 7. Go to "bin" folder at the Postgres installation path, open cmd and login using command : "psql -U postgres -W". Enter password "C@rpe_d!em".
-Run command "create database scholarum".
+Run command "create database scholarum ;".
 6. Run service/src/main/java/com.scholarum.service.Application.java as Java Application. Application will start @ port 7070.
 7. To change port, change server.port in service/src/main/resource/application.properties.
