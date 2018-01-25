@@ -34,4 +34,12 @@ public class Module {
 		this.name = name;
 	}
 
+	public List<Activity> getActivities() {
+		return activities;
+	}
+
+	public void setActivities(List<Activity> activities) {
+		this.activities = activities;
+	}
+
 }
