@@ -2,7 +2,6 @@ package com.scholarum.dashboard.service;
 
 import java.util.LinkedHashMap;
 
-import org.eclipse.jetty.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,7 +15,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.scholarum.common.bean.Company;
 import com.scholarum.common.client.RestTemplateClient;
-import com.scholarum.common.exception.ScException;
 
 @Service
 public class SecureLoginService {
@@ -39,7 +37,7 @@ public class SecureLoginService {
 					HttpMethod.POST, httpEntity, LinkedHashMap.class);
 			return response.getBody();
 		} catch (Exception ex) {
-			throw new ScException(HttpStatus.INTERNAL_SERVER_ERROR_500, "Something went wrong");
+			throw ex;
 		}
 	}
 

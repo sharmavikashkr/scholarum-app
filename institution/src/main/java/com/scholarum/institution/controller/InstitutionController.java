@@ -2,7 +2,6 @@ package com.scholarum.institution.controller;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.jetty.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +21,7 @@ public class InstitutionController {
 	@PreAuthorize(RoleUtil.INSTITUTION_AUTH)
 	@RequestMapping("/get")
 	public Institution getInstitution(HttpServletResponse httpResponse) {
-		try {
-			return secSer.getInstitutionForLoggedInUser();
-		} catch (Exception ex) {
-			httpResponse.setStatus(HttpStatus.BAD_REQUEST_400);
-			throw ex;
-		}
+		return secSer.getInstitutionForLoggedInUser();
 	}
 
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.jetty.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,23 +28,13 @@ public class UserController {
 	@PreAuthorize(RoleUtil.ALL_AUTH)
 	@RequestMapping("/get")
 	public ScUser getUser(HttpServletResponse httpResponse) {
-		try {
-			return secSer.findLoggedInUser();
-		} catch (Exception ex) {
-			httpResponse.setStatus(HttpStatus.BAD_REQUEST_400);
-			throw ex;
-		}
+		return secSer.findLoggedInUser();
 	}
 
 	@PreAuthorize(RoleUtil.ALL_AUTH)
 	@RequestMapping("/permissions/get")
 	public List<UserPermissionBean> getUserPermissions(HttpServletResponse httpResponse) {
-		try {
-			return userSer.getUserPermissions();
-		} catch (Exception ex) {
-			httpResponse.setStatus(HttpStatus.BAD_REQUEST_400);
-			throw ex;
-		}
+		return userSer.getUserPermissions();
 	}
 
 }

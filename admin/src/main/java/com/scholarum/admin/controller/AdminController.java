@@ -2,7 +2,6 @@ package com.scholarum.admin.controller;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.jetty.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,12 +28,7 @@ public class AdminController {
 	@PreAuthorize(RoleUtil.SCHOLARUM_AUTH)
 	@RequestMapping("/get")
 	public Admin getAdmin(HttpServletResponse httpResponse) {
-		try {
-			return secSer.getAdminForLoggedInUser();
-		} catch (Exception ex) {
-			httpResponse.setStatus(HttpStatus.BAD_REQUEST_400);
-			throw ex;
-		}
+		return secSer.getAdminForLoggedInUser();
 	}
 
 	@PreAuthorize("hasPermission('MODULE','ACTIVITY','ADD')")
@@ -42,7 +36,7 @@ public class AdminController {
 	public String addTest(HttpServletResponse httpResponse) {
 		return "User has permission to add activity";
 	}
-	
+
 	@PreAuthorize("hasPermission('MODULE','ACTIVITY','DELETE')")
 	@RequestMapping("/test/delete")
 	public String deleteTest(HttpServletResponse httpResponse) {
@@ -52,12 +46,7 @@ public class AdminController {
 	@PreAuthorize(RoleUtil.SCHOLARUM_ADMIN_AUTH)
 	@RequestMapping("/institution/new")
 	public void newInstitution(@RequestBody InstitutionUser instiUser, HttpServletResponse httpResponse) {
-		try {
-			ScUser user = secSer.findLoggedInUser();
-			adminSer.newInstitution(instiUser, user.getEmail());
-		} catch (Exception ex) {
-			httpResponse.setStatus(HttpStatus.BAD_REQUEST_400);
-			throw ex;
-		}
+		ScUser user = secSer.findLoggedInUser();
+		adminSer.newInstitution(instiUser, user.getEmail());
 	}
 }
