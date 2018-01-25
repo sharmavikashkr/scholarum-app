@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scholarum.admin.service.DefaultActionService;
 import com.scholarum.common.bean.Permission;
+import com.scholarum.common.bean.UserPermissionBean;
 import com.scholarum.common.entity.Activity;
 import com.scholarum.common.entity.Hierarchy;
 import com.scholarum.common.entity.Module;
@@ -24,13 +25,13 @@ public class DefaultActionController {
 
 	@Autowired
 	private DefaultActionService defActService;
-	
+
 	@PreAuthorize(RoleUtil.SCHOLARUM_ADMIN_AUTH)
 	@RequestMapping(value = "/hierarchies/get", method = RequestMethod.GET)
 	public List<Hierarchy> getHierarchies() {
 		return defActService.getHierarchies();
 	}
-	
+
 	@PreAuthorize(RoleUtil.SCHOLARUM_ADMIN_AUTH)
 	@RequestMapping(value = "/roles/get", method = RequestMethod.POST)
 	public List<Role> getRoles(@RequestParam("hierarchyId") Integer hierarchyId) {
@@ -42,17 +43,23 @@ public class DefaultActionController {
 	public List<Activity> getRoleActivities(@RequestParam("roleId") Integer roleId) {
 		return defActService.getRoleActivities(roleId);
 	}
-	
+
 	@PreAuthorize(RoleUtil.SCHOLARUM_ADMIN_AUTH)
 	@RequestMapping(value = "/modules/get", method = RequestMethod.GET)
 	public List<Module> getModules() {
 		return defActService.getModules();
 	}
-	
+
 	@PreAuthorize(RoleUtil.SCHOLARUM_ADMIN_AUTH)
 	@RequestMapping(value = "/module/activities/get", method = RequestMethod.POST)
 	public List<Activity> getModuleActivities(@RequestParam("moduleId") Integer moduleId) {
 		return defActService.getModuleActivities(moduleId);
+	}
+
+	@PreAuthorize(RoleUtil.SCHOLARUM_ADMIN_AUTH)
+	@RequestMapping(value = "/permissions/get", method = RequestMethod.POST)
+	public List<UserPermissionBean> getPermissions(@RequestParam("roleId") Integer roleId) {
+		return defActService.getPermissions(roleId);
 	}
 
 	@PreAuthorize(RoleUtil.SCHOLARUM_ADMIN_AUTH)

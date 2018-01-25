@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scholarum.common.bean.Permission;
+import com.scholarum.common.bean.UserPermissionBean;
 import com.scholarum.common.entity.Activity;
 import com.scholarum.common.entity.Role;
 import com.scholarum.common.util.RoleUtil;
@@ -33,6 +34,12 @@ public class AdminActionController {
 	@RequestMapping(value = "/activities/get", method = RequestMethod.POST)
 	public List<Activity> getActivities(@RequestParam("roleId") Integer roleId) {
 		return adminActSer.getActivities(roleId);
+	}
+	
+	@PreAuthorize(RoleUtil.ALL_ADMIN_AUTH)
+	@RequestMapping(value = "/permissions/get", method = RequestMethod.POST)
+	public List<UserPermissionBean> getPermissions(@RequestParam("roleId") Integer roleId) {
+		return adminActSer.getPermissions(roleId);
 	}
 
 	@PreAuthorize(RoleUtil.ALL_ADMIN_AUTH)

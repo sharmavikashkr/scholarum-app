@@ -1,5 +1,6 @@
 package com.scholarum.admin.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jetty.http.HttpStatus;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.scholarum.common.bean.Permission;
+import com.scholarum.common.bean.UserPermissionBean;
 import com.scholarum.common.entity.Activity;
 import com.scholarum.common.entity.Hierarchy;
 import com.scholarum.common.entity.Module;
@@ -73,6 +75,27 @@ public class DefaultActionService {
 			throw new ScException(HttpStatus.BAD_REQUEST_400, "Module does not exist");
 		}
 		return activityRepo.findByModule(module);
+	}
+
+	public List<UserPermissionBean> getPermissions(Integer roleId) {
+		Role role = roleRepo.findOne(roleId);
+		if (CommonUtil.isNull(role)) {
+			throw new ScException(HttpStatus.BAD_REQUEST_400, "Role does not exist");
+		}
+		List<UserPermissionBean> userPermList = new ArrayList<>();
+		for (RoleModule roleModule : roleModuleRepo.findByRole(role)) {
+			Module module = roleModule.getModule();
+			UserPermissionBean userPerm = new UserPermissionBean();
+			userPerm.setModule(module);
+			List<RolePermission> rolePermList = new ArrayList<>();
+			for (Activity activity : activityRepo.findByModule(module)) {
+				RolePermission rolePerm = rolePermRepo.findByObjectIdAndRoleModuleAndActivity(-1, roleModule, activity);
+				rolePermList.add(rolePerm);
+			}
+			userPerm.setRolePermList(rolePermList);
+			userPermList.add(userPerm);
+		}
+		return userPermList;
 	}
 
 	public void newModule(String moduleName) {
