@@ -5,6 +5,7 @@ import javax.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -43,6 +44,13 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value = { HttpClientErrorException.class })
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	public ApiErrorResponse unauthorizedException(HttpClientErrorException ex) {
+		logger.error(ex.getMessage(), ex);
+		return new ApiErrorResponse(401, "Unauthorized");
+	}
+
+	@ExceptionHandler(value = { AccessDeniedException.class })
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	public ApiErrorResponse accessDeniedException(AccessDeniedException ex) {
 		logger.error(ex.getMessage(), ex);
 		return new ApiErrorResponse(401, "Unauthorized");
 	}
