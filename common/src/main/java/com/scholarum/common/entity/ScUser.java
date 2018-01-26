@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.scholarum.common.type.RoleType;
 
 @Entity
 @Table(name = "sc_user")
@@ -38,6 +41,9 @@ public class ScUser {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<UserRole> userRoles;
+
+	@Transient
+	private RoleType roleType;
 
 	public String getPassword() {
 		return password;
@@ -121,6 +127,14 @@ public class ScUser {
 
 	public void setHierarchy(Hierarchy hierarchy) {
 		this.hierarchy = hierarchy;
+	}
+
+	public RoleType getRoleType() {
+		return roleType;
+	}
+
+	public void setRoleType(RoleType roleType) {
+		this.roleType = roleType;
 	}
 
 }

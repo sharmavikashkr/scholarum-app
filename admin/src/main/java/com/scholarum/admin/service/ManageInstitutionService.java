@@ -21,7 +21,7 @@ import com.scholarum.common.type.RoleType;
 import com.scholarum.dashboard.validation.UserValidator;
 
 @Service
-public class AdminService {
+public class ManageInstitutionService {
 
 	@Autowired
 	private HierarchyRepository hieRepo;

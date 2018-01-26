@@ -23,7 +23,7 @@ import com.scholarum.dashboard.validation.UserValidator;
 import com.scholarum.institution.validation.SchoolValidator;
 
 @Service
-public class InstitutionService {
+public class ManageSchoolService {
 
 	@Autowired
 	private SecurityService secSer;
