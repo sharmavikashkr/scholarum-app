@@ -50,6 +50,21 @@ public class ManageUserService {
 	@Autowired
 	private UserValidator userValid;
 
+	public List<ScUser> getUsers() {
+		ScUser user = secSer.findLoggedInUser();
+		if (HierarchyType.SCHOLARUM.equals(user.getHierarchy().getName())) {
+			Admin admin = secSer.getAdminForLoggedInUser();
+			return adminUserRepo.findUsersForAdmin(admin);
+		} else if (HierarchyType.INSTITUTION.equals(user.getHierarchy().getName())) {
+			Institution insti = secSer.getInstitutionForLoggedInUser();
+			return instiUserRepo.findUsersForInstitution(insti);
+		} else if (HierarchyType.SCHOOL.equals(user.getHierarchy().getName())) {
+			School school = secSer.getSchoolForLoggedInUser();
+			return schoolUserRepo.findUsersForSchool(school);
+		}
+		return null;
+	}
+
 	public void newUser(ScUser newUser) {
 		ScUser user = secSer.findLoggedInUser();
 		userValid.validate(newUser);

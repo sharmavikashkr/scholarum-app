@@ -1,5 +1,7 @@
 package com.scholarum.dashboard.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +18,12 @@ public class ManageUserController {
 
 	@Autowired
 	private ManageUserService mngUserSer;
+
+	@PreAuthorize(RoleUtil.ALL_ADMIN_AUTH)
+	@RequestMapping("/get")
+	public List<ScUser> getUsers() {
+		return mngUserSer.getUsers();
+	}
 
 	@PreAuthorize(RoleUtil.ALL_ADMIN_AUTH)
 	@RequestMapping("/new")
