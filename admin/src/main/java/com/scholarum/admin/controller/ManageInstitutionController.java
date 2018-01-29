@@ -1,7 +1,5 @@
 package com.scholarum.admin.controller;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +24,7 @@ public class ManageInstitutionController {
 
 	@PreAuthorize(RoleUtil.SCHOLARUM_ADMIN_AUTH)
 	@RequestMapping("/new")
-	public void newInstitution(@RequestBody InstitutionUser instiUser, HttpServletResponse httpResponse) {
+	public void newInstitution(@RequestBody InstitutionUser instiUser) {
 		ScUser user = secSer.findLoggedInUser();
 		mngInstiSer.newInstitution(instiUser, user.getEmail());
 	}

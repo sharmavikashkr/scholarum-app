@@ -1,7 +1,5 @@
 package com.scholarum.admin.controller;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,19 +18,19 @@ public class AdminController {
 
 	@PreAuthorize(RoleUtil.SCHOLARUM_AUTH)
 	@RequestMapping("/get")
-	public Admin getAdmin(HttpServletResponse httpResponse) {
+	public Admin getAdmin() {
 		return secSer.getAdminForLoggedInUser();
 	}
 
 	@PreAuthorize("hasPermission('MODULE','ACTIVITY','ADD')")
 	@RequestMapping("/test/add")
-	public String addTest(HttpServletResponse httpResponse) {
+	public String addTest() {
 		return "User has permission to add activity";
 	}
 
 	@PreAuthorize("hasPermission('MODULE','ACTIVITY','DELETE')")
 	@RequestMapping("/test/delete")
-	public String deleteTest(HttpServletResponse httpResponse) {
+	public String deleteTest() {
 		return "User has permission to delete activity";
 	}
 }

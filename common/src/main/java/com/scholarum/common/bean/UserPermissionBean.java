@@ -3,12 +3,11 @@ package com.scholarum.common.bean;
 import java.util.List;
 
 import com.scholarum.common.entity.Module;
-import com.scholarum.common.entity.RolePermission;
 
 public class UserPermissionBean {
 
 	private Module module;
-	private List<RolePermission> rolePermList;
+	private List<ActivityPermissionBean> activityPermList;
 
 	public Module getModule() {
 		return module;
@@ -18,12 +17,12 @@ public class UserPermissionBean {
 		this.module = module;
 	}
 
-	public List<RolePermission> getRolePermList() {
-		return rolePermList;
+	public List<ActivityPermissionBean> getActivityPermList() {
+		return activityPermList;
 	}
 
-	public void setRolePermList(List<RolePermission> rolePermList) {
-		this.rolePermList = rolePermList;
+	public void setActivityPermList(List<ActivityPermissionBean> activityPermList) {
+		this.activityPermList = activityPermList;
 	}
 
 }

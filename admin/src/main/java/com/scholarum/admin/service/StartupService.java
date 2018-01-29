@@ -65,6 +65,7 @@ public class StartupService {
 		for (RoleType name : RoleType.values()) {
 			Role role = new Role();
 			role.setName(name);
+			role.setAlias(name.getAlias());
 			if (name.name().contains(HierarchyType.SCHOLARUM.name())) {
 				role.setHierarchy(hieRepo.findByName(HierarchyType.SCHOLARUM));
 			} else if (name.name().contains(HierarchyType.INSTITUTION.name())) {

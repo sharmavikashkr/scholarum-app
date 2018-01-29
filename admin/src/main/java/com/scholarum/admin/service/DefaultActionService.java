@@ -7,6 +7,7 @@ import org.eclipse.jetty.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.scholarum.common.bean.ActivityPermissionBean;
 import com.scholarum.common.bean.Permission;
 import com.scholarum.common.bean.UserPermissionBean;
 import com.scholarum.common.entity.Activity;
@@ -87,12 +88,14 @@ public class DefaultActionService {
 			Module module = roleModule.getModule();
 			UserPermissionBean userPerm = new UserPermissionBean();
 			userPerm.setModule(module);
-			List<RolePermission> rolePermList = new ArrayList<>();
+			List<ActivityPermissionBean> activityPermList = new ArrayList<>();
 			for (Activity activity : activityRepo.findByModule(module)) {
 				RolePermission rolePerm = rolePermRepo.findByObjectIdAndRoleModuleAndActivity(-1, roleModule, activity);
-				rolePermList.add(rolePerm);
+				ActivityPermissionBean activityBean = new ActivityPermissionBean(activity, rolePerm.isAdd(),
+						rolePerm.isView(), rolePerm.isEdit(), rolePerm.isEdit());
+				activityPermList.add(activityBean);
 			}
-			userPerm.setRolePermList(rolePermList);
+			userPerm.setActivityPermList(activityPermList);
 			userPermList.add(userPerm);
 		}
 		return userPermList;

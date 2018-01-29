@@ -20,6 +20,8 @@ public class Role {
 
 	@Enumerated(EnumType.STRING)
 	private RoleType name;
+	
+	private String alias;
 
 	@ManyToOne
 	private Hierarchy hierarchy;
@@ -42,6 +44,14 @@ public class Role {
 
 	public void setHierarchy(Hierarchy hierarchy) {
 		this.hierarchy = hierarchy;
+	}
+
+	public String getAlias() {
+		return alias;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
 	}
 
 }

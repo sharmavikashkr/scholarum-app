@@ -16,6 +16,7 @@ CREATE TABLE if not exists sc_hierarchy (
 CREATE TABLE if not exists sc_role (
 	id SERIAL PRIMARY KEY NOT NULL,
     name varchar(30) NOT NULL,
+    alias varchar(30) NOT NULL,
     hierarchy_id int REFERENCES sc_hierarchy
 );
 
