@@ -17,6 +17,8 @@ public interface InstitutionUserRepository extends JpaRepository<InstitutionUser
 
 	public List<InstitutionUser> findByInstitution(Institution institution);
 
+	public InstitutionUser findByInstitutionAndUser(Institution institution, ScUser user);
+
 	@Query("SELECT iu.user FROM InstitutionUser iu WHERE iu.institution = ?1")
 	public List<ScUser> findUsersForInstitution(Institution institution);
 

@@ -17,6 +17,8 @@ public interface AdminUserRepository extends JpaRepository<AdminUser, Integer> {
 
 	public List<AdminUser> findByAdmin(Admin admin);
 
+	public AdminUser findByAdminAndUser(Admin admin, ScUser user);
+
 	@Query("SELECT au.user FROM AdminUser au WHERE au.admin = ?1")
 	public List<ScUser> findUsersForAdmin(Admin admin);
 

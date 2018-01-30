@@ -17,6 +17,8 @@ public interface SchoolUserRepository extends JpaRepository<SchoolUser, Integer>
 
 	public List<SchoolUser> findBySchool(School school);
 
+	public SchoolUser findBySchoolAndUser(School school, ScUser user);
+
 	@Query("SELECT su.user FROM SchoolUser su WHERE su.school = ?1")
 	public List<ScUser> findUsersForSchool(School school);
 
