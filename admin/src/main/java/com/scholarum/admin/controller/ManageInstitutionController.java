@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scholarum.admin.service.ManageInstitutionService;
+import com.scholarum.common.bean.SearchInstitutionRequest;
+import com.scholarum.common.bean.SearchInstitutionResponse;
 import com.scholarum.common.entity.InstitutionUser;
-import com.scholarum.common.entity.ScUser;
-import com.scholarum.common.service.SecurityService;
 import com.scholarum.common.util.RoleUtil;
 
 @RestController
@@ -17,15 +17,17 @@ import com.scholarum.common.util.RoleUtil;
 public class ManageInstitutionController {
 
 	@Autowired
-	private SecurityService secSer;
-
-	@Autowired
 	private ManageInstitutionService mngInstiSer;
 
 	@PreAuthorize(RoleUtil.SCHOLARUM_ADMIN_AUTH)
 	@RequestMapping("/new")
 	public void newInstitution(@RequestBody InstitutionUser instiUser) {
-		ScUser user = secSer.findLoggedInUser();
-		mngInstiSer.newInstitution(instiUser, user.getEmail());
+		mngInstiSer.newInstitution(instiUser);
+	}
+
+	@PreAuthorize(RoleUtil.SCHOLARUM_ADMIN_AUTH)
+	@RequestMapping("/search")
+	public SearchInstitutionResponse searchInsti(@RequestBody SearchInstitutionRequest searchReq) {
+		return mngInstiSer.searchInstitutions(searchReq);
 	}
 }

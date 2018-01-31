@@ -75,4 +75,9 @@ public class ManageSchoolService {
 		// TODO : send reset password link
 	}
 
+	public List<School> getSchools() {
+		Institution insti = secSer.getInstitutionForLoggedInUser();
+		return schoolRepo.findByInstitution(insti);
+	}
+
 }

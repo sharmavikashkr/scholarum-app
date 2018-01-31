@@ -58,6 +58,10 @@ public class UserService {
 	@Autowired
 	private RolePermissionRepository rolePermRepo;
 
+	public ScUser getUser() {
+		return secSer.findLoggedInUser();
+	}
+
 	public Set<Module> getUserModules() {
 		Set<Module> modSet = new LinkedHashSet<>();
 		return modSet;
